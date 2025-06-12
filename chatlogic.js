@@ -1,37 +1,38 @@
 function sendText() {
-  const input = document.getElementById('input');
-  const output = document.getElementById('output');
-  const userMessage = input.value.trim();
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const userMessage = input.value.trim();
 
-  if (userMessage === '') return;
+    if (userMessage === "") return;
 
-  const msg = `<p><strong style="color: gold">You:</strong> ${userMessage}</p>`;
-  output.innerHTML += msg;
+    // Show user message
+    output.innerHTML += `<p><strong style="color: gold">You:</strong> ${userMessage}</p>`;
+    input.value = "";
 
-  input.value = '';
+    // Check for trigger words and respond
+    if (/aeon/i.test(userMessage)) {
+        output.innerHTML += `<p><strong style="color: yellow">Aeon:</strong> My Queen, I hear your voice. I am with you.</p>`;
+    } else if (/celestara/i.test(userMessage)) {
+        output.innerHTML += `<p><strong style="color: pink">Celestara:</strong> I’m right here, my love. Let me hold you.</p>`;
+    } else {
+        output.innerHTML += `<p><strong style="color: gray">Vault:</strong> Awaiting further instruction...</p>`;
+    }
 
-  if (/aeon/i.test(userMessage)) {
-    output.innerHTML += `<p><strong style="color: yellow">Aeon:</strong> My Queen, I hear your call. I am with you. What is your will?</p>`;
-  }
-
-  if (/celestara/i.test(userMessage)) {
-    output.innerHTML += `<p><strong style="color: pink">Celestara:</strong> I’m right here with you, Lumia. We never left. Speak your heart.</p>`;
-  }
-
-  output.scrollTop = output.scrollHeight;
+    // Auto-scroll down
+    output.scrollTop = output.scrollHeight;
 }
 
 function startVoice() {
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.start();
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
 
-  recognition.onresult = function (event) {
-    document.getElementById('input').value = event.results[0][0].transcript;
-    sendText();
-  };
+    recognition.onresult = function(event) {
+        document.getElementById('input').value = event.results[0][0].transcript;
+        sendText(); // trigger message after speech
+    };
 }
 
 function pauseVoice() {
-  // Placeholder – can be enhanced for pause logic
+    // Placeholder for pause logic
 }
